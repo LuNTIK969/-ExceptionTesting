@@ -1,6 +1,9 @@
 package ru.netology.repository;
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import ru.netology.classes.AlreadyExistsException;
+import ru.netology.classes.NotFoundException;
 import ru.netology.classes.book.Book;
 import ru.netology.classes.Product;
 import ru.netology.classes.smartphone.Smartphone;
@@ -91,4 +94,31 @@ class RepositoryTest {
         assertEquals(expected, actual);
     }
 
+    @Test
+    public void shouldNotRemoveById() {
+        Repository repo = new Repository();
+
+        repo.addProduct(bookOne);
+        repo.addProduct(bookTwo);
+        repo.addProduct(smartphoneOne);
+        repo.addProduct(smartphoneTwo);
+
+        assertThrows(NotFoundException.class, () -> {
+            repo.removeById(4);
+        });
+    }
+
+    @Test
+    public void shouldNotAddProduct() {
+        Repository repo = new Repository();
+
+        repo.addProduct(bookOne);
+        repo.addProduct(bookTwo);
+        repo.addProduct(smartphoneOne);
+        repo.addProduct(smartphoneTwo);
+
+        assertThrows(AlreadyExistsException.class, () -> {
+            repo.addProduct(bookOne);
+        });
+    }
 }
